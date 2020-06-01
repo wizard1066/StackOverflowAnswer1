@@ -14,6 +14,7 @@
 		7BDBF7E524843F2100542F86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BDBF7E424843F2100542F86 /* Assets.xcassets */; };
 		7BDBF7E824843F2100542F86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BDBF7E724843F2100542F86 /* Preview Assets.xcassets */; };
 		7BDBF7EB24843F2100542F86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BDBF7E924843F2100542F86 /* LaunchScreen.storyboard */; };
+		7BDBF7F32484FB0500542F86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDBF7F22484FB0500542F86 /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7BDBF7E724843F2100542F86 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7BDBF7EA24843F2100542F86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7BDBF7EC24843F2100542F86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BDBF7F22484FB0500542F86 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		7BDBF7DA24843F1E00542F86 /* StackOverflowAnswer */ = {
 			isa = PBXGroup;
 			children = (
+				7BDBF7F22484FB0500542F86 /* ViewController.swift */,
 				7BDBF7DB24843F1E00542F86 /* AppDelegate.swift */,
 				7BDBF7DD24843F1E00542F86 /* SceneDelegate.swift */,
 				7BDBF7E224843F1E00542F86 /* ContentView.swift */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BDBF7F32484FB0500542F86 /* ViewController.swift in Sources */,
 				7BDBF7DC24843F1E00542F86 /* AppDelegate.swift in Sources */,
 				7BDBF7E124843F1E00542F86 /* StackOverflowAnswer.xcdatamodeld in Sources */,
 				7BDBF7E324843F1E00542F86 /* ContentView.swift in Sources */,
