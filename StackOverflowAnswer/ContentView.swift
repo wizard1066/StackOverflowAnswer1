@@ -7,8 +7,12 @@
 //
 
 import SwiftUI
+import Combine
+
+var reporter = PassthroughSubject<String, Never>()
 
 struct newView: UIViewRepresentable {
+  @State var direction = ""
 
   typealias UIViewType = UIView
   var v = UIView()
@@ -17,13 +21,21 @@ struct newView: UIViewRepresentable {
     v.backgroundColor = UIColor.yellow
   }
   
-  
   func makeUIView(context: Context) -> UIView {
     let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(sender:)))
-    let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(sender:)))
-    v.addGestureRecognizer(panGesture)
-    v.addGestureRecognizer(tapGesture)
+//    let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(sender:)))
+    let pinchGesture = UIPinchGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePinch(sender:)))
+    let leftSwipe = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleSwipe(sender:)))
+    leftSwipe.direction = .left
+    let rightSwipe = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleSwipe(sender:)))
+    rightSwipe.direction = .right
     
+    
+//    v.addGestureRecognizer(panGesture)
+    v.addGestureRecognizer(pinchGesture)
+    v.addGestureRecognizer(tapGesture)
+    v.addGestureRecognizer(leftSwipe)
+    v.addGestureRecognizer(rightSwipe)
     return v
     }
     
@@ -43,34 +55,53 @@ struct newView: UIViewRepresentable {
       fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func handlePinch(sender: UIPinchGestureRecognizer) {
+      let scale = sender.scale
+      reporter.send("scale \(scale)")
+    }
+    
     @objc func handleTap(sender: UITapGestureRecognizer) {
-        print("tap")
+      let location = sender.location(in: view)
+      reporter.send("tap \(location)")
     }
     
     @objc func handlePan(sender: UIPanGestureRecognizer) {
-      // 1
+
       let translation = sender.translation(in: view)
-      let foo = sender.location(in: view)
+      let location = sender.location(in: view)
       
-      print("trans ",translation,"foo ",foo)
-      
-      // 2
-      guard let gestureView = sender.view else {
-        return
-      }
-      
-      gestureView.center = CGPoint(
-        x: gestureView.center.x + translation.x,
-        y: gestureView.center.y + translation.y
-      )
-      
-      // 3
       sender.setTranslation(.zero, in: view)
-      
-      
+      reporter.send("pan \(location) \(translation)")
+    }
+    
+    @objc func handleSwipe(sender: UISwipeGestureRecognizer) {
+      if sender.direction == .left {
+        let location = sender.location(in: view)
+        reporter.send("left \(location)")
+      } else {
+        if sender.direction == .right {
+          let location = sender.location(in: view)
+          reporter.send("right \(location)")
+        }
+      }
     }
   }
+}
+
+struct ContentView: View {
+  @State var direction = ""
   
+    var body: some View {
+     return ZStack {
+      newView()
+      Rectangle()
+        .stroke(lineWidth: 5)
+        .frame(width: 256, height: 128, alignment: .center)
+      Text(direction)
+        .onReceive(reporter) { ( data ) in
+          self.direction = data
+        }
+    }
 }
 
 //struct newViewController: UIViewControllerRepresentable {
@@ -154,15 +185,7 @@ struct newView: UIViewRepresentable {
 
 
 
-struct ContentView: View {
-    var body: some View {
-     return ZStack {
-      newView()
-      Rectangle()
-        .stroke(lineWidth: 5)
-        .frame(width: 128, height: 128, alignment: .center)
-    }
-}
+
 struct fileforNow: View {
   var body: some View {
   ForEach(1..<6) {colY in
