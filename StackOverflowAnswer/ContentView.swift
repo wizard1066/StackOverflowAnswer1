@@ -50,6 +50,9 @@ struct newView: UIViewRepresentable {
     @objc func handlePan(sender: UIPanGestureRecognizer) {
       // 1
       let translation = sender.translation(in: view)
+      let foo = sender.location(in: view)
+      
+      print("trans ",translation,"foo ",foo)
       
       // 2
       guard let gestureView = sender.view else {
@@ -63,7 +66,8 @@ struct newView: UIViewRepresentable {
       
       // 3
       sender.setTranslation(.zero, in: view)
-      print("fuck")
+      
+      
     }
   }
   
